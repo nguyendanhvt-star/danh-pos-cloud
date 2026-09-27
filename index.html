@@ -9,8 +9,8 @@
 <section id="orders" class="page"><h2>Đơn hàng</h2><div style="overflow:auto"><table><thead><tr><th>Mã đơn</th><th>Thời gian</th><th>Doanh thu</th><th>Đã trả</th><th>Nợ</th><th id="profitHead">Lợi nhuận</th></tr></thead><tbody id="ot"></tbody></table></div></section>
 <section id="staff" class="page"><h2>Nhân viên</h2><div class="panel"><input id="sname" placeholder="Tên nhân viên"><input id="semail" type="email" placeholder="Email"><input id="spw" type="password" placeholder="Mật khẩu"><button class="btn blue" onclick="createStaff()">Tạo nhân viên</button></div><br><table><thead><tr><th>Tên</th><th>Vai trò</th><th>Trạng thái</th></tr></thead><tbody id="st"></tbody></table></section>
 </main></div><script>
-const URL="https://fxmujciaojzbjsqrypqz.supabase.co",KEY="sb_publishable_cVwdeTGN2SlMSftxSPylaA_yIEWZWTi";
-function getDb(){return window.supabase.createClient(URL,KEY)};let me=null,products=[],customers=[],orders=[],profiles={},costs={},fin={},cartItems=[];
+const DANH_SUPABASE_URL="https://fxmujciaojzbjsqrypqz.supabase.co";const DANH_SUPABASE_KEY="sb_publishable_cVwdeTGN2SlMSftxSPylaA_yIEWZWTi";
+function getDb(){return window.supabase.createClient(DANH_SUPABASE_URL,DANH_SUPABASE_KEY)};let me=null,products=[],customers=[],orders=[],profiles={},costs={},fin={},cartItems=[];
 const money=n=>new Intl.NumberFormat("vi-VN",{style:"currency",currency:"VND",maximumFractionDigits:0}).format(Number(n)||0);
 const admin=()=>me?.role==="admin";const esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
 function go(id){document.querySelectorAll(".page").forEach(x=>x.classList.remove("on"));document.getElementById(id).classList.add("on")}
