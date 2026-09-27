@@ -15,18 +15,18 @@ const money=n=>new Intl.NumberFormat("vi-VN",{style:"currency",currency:"VND",ma
 const admin=()=>me?.role==="admin";const esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
 function go(id){document.querySelectorAll(".page").forEach(x=>x.classList.remove("on"));document.getElementById(id).classList.add("on")}
 async function signIn(){
- const errEl=document.getElementById("err"), btn=document.getElementById("loginBtn");
+ const errEl=document.getElementById("err"), loginButton=document.getElementById("loginBtn");
  const emailEl=document.getElementById("email"), pwEl=document.getElementById("pw");
  errEl.textContent="";
  if(!emailEl.value.trim()||!pwEl.value){errEl.textContent="Vui lòng nhập email và mật khẩu";return}
- btn.disabled=true;btn.textContent="Đang đăng nhập...";
+ loginButton.disabled=true;loginButton.textContent="Đang đăng nhập...";
  try{
    const {data,error}=await sb.auth.signInWithPassword({email:emailEl.value.trim(),password:pwEl.value});
    if(error){errEl.textContent=error.message;return}
    if(!data?.user){errEl.textContent="Không nhận được tài khoản đăng nhập";return}
    await start();
  }catch(e){errEl.textContent="Lỗi kết nối: "+(e?.message||e)}
- finally{btn.disabled=false;btn.textContent="Đăng nhập"}
+ finally{loginButton.disabled=false;loginButton.textContent="Đăng nhập"}
 }
 async function signOut(){await sb.auth.signOut();location.reload()}
 async function start(){const {data:{user}}=await sb.auth.getUser();if(!user)return;const p=await sb.from("profiles").select("*").eq("id",user.id).single();if(p.error||!p.data.active){await sb.auth.signOut();return alert("Tài khoản bị khóa")};me=p.data;document.getElementById("login").classList.add("hide");document.getElementById("who").textContent=me.full_name+(admin()?" · Admin":"");document.getElementById("staffNav").classList.toggle("hide",!admin());document.getElementById("profitCard").classList.toggle("hide",!admin());document.getElementById("costHead").classList.toggle("hide",!admin());document.getElementById("profitHead").classList.toggle("hide",!admin());await reload()}
